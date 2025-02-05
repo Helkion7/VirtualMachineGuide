@@ -138,19 +138,25 @@
         margin-bottom: 1rem;
       }
 
-      .image-placeholder {
+      .image-container {
         background-color: #e0e0e0;
-        height: 300px;
+        border-radius: 8px;
+        padding: 1rem;
         margin: 1rem 0;
+        text-align: center;
+      }
+
+      .image-placeholder {
+        height: auto;
+        background: #f5f5f5;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 4px;
-        transition: transform 0.3s ease;
-      }
-
-      .image-placeholder:hover {
-        transform: scale(1.02);
+        padding: 2rem;
+        margin: 0.5rem 0;
+        border: 2px dashed #ccc;
+        max-width: 75%;
       }
 
       /* Animations */
@@ -255,71 +261,312 @@
           border: 2px solid black;
         }
       }
+      .terminal {
+        background-color: #2b2b2b;
+        border-radius: 6px;
+        padding: 1rem;
+        margin: 1rem 0;
+        position: relative;
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      .terminal-content {
+        color: #f8f8f8;
+        margin-right: 40px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      .copy-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .copy-btn:hover {
+        background-color: #2980b9;
+      }
     </style>
   </head>
   <body>
-    <a href="#main-content" class="skip-link">Hopp til hovedinnhold</a>
-
     <nav class="navbar" role="navigation" aria-label="Hovednavigasjon">
       <ul class="nav-list">
         <li><a href="#intro">Introduksjon</a></li>
         <li><a href="#vm-setup">VM Oppsett</a></li>
         <li><a href="#ubuntu-install">Ubuntu Installasjon</a></li>
-        <li><a href="#web-server">Webserver Oppsett</a></li>
-        <li><a href="#hosting">Hosting</a></li>
+        <li><a href="#ssh-setup">SSH Oppsett</a></li>
+        <li><a href="#apache-setup">Apache Oppsett</a></li>
+        <li><a href="#dns-setup">DNS Konfigurasjon</a></li>
       </ul>
     </nav>
 
     <main id="main-content" class="main-content">
       <h1>Guide: Ubuntu Server Installasjon og Webserver Oppsett</h1>
 
-      <section id="intro" class="section">
-        <h2>Introduksjon</h2>
-        <p>
-          Velkommen til denne omfattende guiden om hvordan du setter opp en
-          Ubuntu server og konfigurerer en webserver. Denne guiden vil ta deg
-          gjennom hele prosessen steg for steg.
-        </p>
-        <div class="image-placeholder">Introduksjonsbilde placeholder</div>
-      </section>
-
       <section id="vm-setup" class="section">
         <h2>Oppsett av Virtuell Maskin</h2>
-        <p>[Placeholder] Detaljert gjennomgang av VM oppsett prosessen...</p>
-        <div class="image-placeholder">VM setup skjermbilde placeholder</div>
+        <p>1. Høyreklikk på din pool og velg "New Virtual Machine"</p>
+
+        <div class="image-container">
+          <img
+            src="img/image1.png"
+            alt="VM Creation Dialog - New Virtual Machine menu"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>2. Gå gjennom veiviseren:</p>
+        <div class="image-container">
+          <img
+            src="img/image2.png"
+            alt="VM Creation Wizard - Naming your VM"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>
+          Velg din egen pool og klikk next. På nummer 4 velger du IKT-fag og
+          klikker next. På nummer 5 klikker du bare next.
+        </p>
+        <div class="image-container">
+          <img
+            src="img/image3.png"
+            alt="Pool Selection Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>3. Velg Linux og Ubuntu Linux (64-bit)</p>
+        <div class="image-container">
+          <img
+            src="img/image4.png"
+            alt="OS Selection Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>
+          4. Velg RAM og harddisk størrelse. Husk å velge "Thin Provision" for
+          "New Hard disk"
+        </p>
+        <div class="image-container">
+          <img
+            src="img/image5.png"
+            alt="RAM and Disk Configuration Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>
+          5. Velg ubuntu-22.04.1-live-server-amd64 fra datastore ISO og huk av
+          "Connect at power on"
+        </p>
+        <div class="image-container">
+          <img
+            src="img/image6.png"
+            alt="ISO Selection Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>6. Aktiver "Force EFI setup" i Boot options</p>
+        <div class="image-container">
+          <img
+            src="img/image7.png"
+            alt="VM Options - Boot Settings Screen"
+            class="image-placeholder"
+          />
+        </div>
       </section>
 
       <section id="ubuntu-install" class="section">
         <h2>Ubuntu Server Installasjon</h2>
+        <p>Start VM-en og klikk på "Launch Web console"</p>
+        <div class="image-container">
+          <img
+            src="img/image8.png"
+            alt="VM Console Launch Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>Trykk Enter for å starte installasjonen</p>
+        <div class="image-container">
+          <img
+            src="img/image9.png"
+            alt="Ubuntu Boot Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>For nettverkskonfigurasjon, velg manual og fyll inn:</p>
+        <ul>
+          <li>Subnet: 10.12.xx.0/24</li>
+          <li>Address: 10.12.xx.xx</li>
+          <li>Gateway: 10.12.xx.1</li>
+          <li>Name Servers: 10.10.1.20, 1.1.1.1, 8.8.8.8</li>
+        </ul>
+
+        <div class="image-container">
+          <img
+            src="img/image10.png"
+            alt="Network Configuration Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>Installer OpenSSH server</p>
+        <div class="image-container">
+          <img
+            src="img/image11.png"
+            alt="SSH Server Installation Screen"
+            class="image-placeholder"
+          />
+        </div>
+
         <p>
-          [Placeholder] Steg-for-steg guide for Ubuntu Server installasjon...
+          Når installasjonen er ferdig, velg "Cancel update" eller "Reboot now"
         </p>
-        <div class="image-placeholder">
-          Ubuntu installasjon skjermbilde placeholder
+        <div class="image-container">
+          <img
+            src="img/image12.png"
+            alt="Installation Complete Screen"
+            class="image-placeholder"
+          />
         </div>
       </section>
 
-      <section id="web-server" class="section">
-        <h2>Webserver Oppsett</h2>
-        <p>
-          [Placeholder] Guide for installasjon og konfigurasjon av
-          Apache/NGINX...
-        </p>
-        <div class="image-placeholder">
-          Webserver konfigurasjon skjermbilde placeholder
+      <section id="ssh-setup" class="section">
+        <h2>SSH Oppsett</h2>
+        <p>Koble til via terminal:</p>
+        <div class="terminal">
+          <div class="terminal-content">ssh [username]@10.12.XX.XX</div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+
+        <div class="image-container">
+          <img
+            src="img/image13.png"
+            alt="SSH Connection Screen"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>Hent din public SSH-nøkkel:</p>
+        <div class="terminal">
+          <div class="terminal-content">cat ~/.ssh/id_rsa.pub</div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
         </div>
       </section>
 
-      <section id="hosting" class="section">
-        <h2>Hosting av Nettsiden</h2>
-        <p>
-          [Placeholder] Instruksjoner for å hoste nettsiden på
-          brukernavn.ikt-fag.no...
-        </p>
-        <div class="image-placeholder">
-          Hosting oppsett skjermbilde placeholder
+      <section id="apache-setup" class="section">
+        <h2>Apache Installasjon</h2>
+        <p>Oppdater systemet og installer Apache:</p>
+        <div class="terminal">
+          <div class="terminal-content">
+            sudo apt update && sudo apt upgrade -y
+          </div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+        <div class="terminal">
+          <div class="terminal-content">sudo apt install apache2 -y</div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+        <div class="terminal">
+          <div class="terminal-content">
+            sudo apt update && sudo apt install git -y
+          </div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+
+        <div class="image-container">
+          <img
+            src="img/image14.png"
+            alt="Apache Default Page"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>Clone GitHub-prosjektet og sett rettigheter:</p>
+        <div class="terminal">
+          <div class="terminal-content">sudo git clone [git_repo_link]</div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+        <div class="terminal">
+          <div class="terminal-content">
+            sudo chown -R www-data:www-data /var/www/html/myProject
+          </div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+        <div class="terminal">
+          <div class="terminal-content">
+            sudo chmod -R 755 /var/www/html/myProject
+          </div>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+        </div>
+
+        <div class="image-container">
+          <img
+            src="img/image15.png"
+            alt="Git Clone and Permissions Setup"
+            class="image-placeholder"
+          />
+        </div>
+      </section>
+
+      <section id="dns-setup" class="section">
+        <h2>DNS Konfigurasjon</h2>
+        <div class="image-container">
+          <img
+            src="img/image16.png"
+            alt="Server Manager DNS Tools"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>Åpne "Forward lookup zones" og opprett ny host</p>
+        <div class="image-container">
+          <img
+            src="img/image17.png"
+            alt="DNS Forward Lookup Zones"
+            class="image-placeholder"
+          />
+        </div>
+
+        <p>Konfigurer den nye hosten</p>
+        <div class="image-container">
+          <img
+            src="img/image18.png"
+            alt="New Host Configuration Screen"
+            class="image-placeholder"
+          />
         </div>
       </section>
     </main>
+
+    <script>
+      function copyToClipboard(button) {
+        const terminal = button.previousElementSibling;
+        const text = terminal.textContent;
+
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = button.textContent;
+          button.textContent = "Copied!";
+          button.style.backgroundColor = "#27ae60";
+
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = "#3498db";
+          }, 2000);
+        });
+      }
+    </script>
   </body>
 </html>
