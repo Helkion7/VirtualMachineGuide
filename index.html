@@ -3,570 +3,205 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ubuntu Server Installasjon Guide</title>
-    <style>
-      /* Reset and base styles */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background-color: #f5f5f5;
-        display: flex;
-      }
-
-      /* Navigation */
-      .navbar {
-        background-color: #2c3e50;
-        width: 250px;
-        height: 100vh;
-        position: fixed;
-        left: 0;
-        top: 0;
-        padding: 2rem 0;
-        z-index: 1000;
-      }
-
-      .nav-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-      }
-
-      .nav-list li {
-        opacity: 0;
-        transform: translateX(-20px);
-        animation: slideIn 0.5s ease forwards;
-      }
-
-      .nav-list li:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .nav-list li:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .nav-list li:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      .nav-list li:nth-child(4) {
-        animation-delay: 0.4s;
-      }
-      .nav-list li:nth-child(5) {
-        animation-delay: 0.5s;
-      }
-
-      .nav-list a {
-        color: white;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.8rem 1rem;
-        border-radius: 4px;
-        display: block;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .nav-list a::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 0;
-        background-color: #3498db;
-        z-index: -1;
-        transition: width 0.3s ease;
-      }
-
-      .nav-list a:hover::before {
-        width: 100%;
-      }
-
-      /* Main content */
-      .main-content {
-        margin-left: 250px;
-        max-width: calc(100% - 250px);
-        padding: 2rem;
-      }
-
-      .section {
-        background: white;
-        border-radius: 8px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.8s ease forwards;
-      }
-
-      h1,
-      h2 {
-        color: #2c3e50;
-        margin-bottom: 1rem;
-      }
-
-      h1 {
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
-        opacity: 0;
-        animation: fadeIn 1s ease forwards 0.5s;
-      }
-
-      h2 {
-        font-size: 1.8rem;
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 0.5rem;
-        transition: color 0.3s ease;
-      }
-
-      .section:hover h2 {
-        color: #3498db;
-      }
-
-      p {
-        margin-bottom: 1rem;
-      }
-
-      .image-container {
-        background-color: #e0e0e0;
-        border-radius: 8px;
-        padding: 1rem;
-        margin: 1rem 0;
-        text-align: center;
-      }
-
-      .image-placeholder {
-        height: auto;
-        background: #f5f5f5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        padding: 2rem;
-        margin: 0.5rem 0;
-        border: 2px dashed #ccc;
-        max-width: 75%;
-      }
-
-      /* Animations */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      /* Accessibility */
-      .skip-link {
-        position: absolute;
-        left: -9999px;
-        z-index: 999;
-        padding: 1em;
-        background-color: black;
-        color: white;
-        text-decoration: none;
-      }
-
-      .skip-link:focus {
-        left: 250px;
-      }
-
-      /* Responsive design */
-      @media (max-width: 768px) {
-        body {
-          flex-direction: column;
-        }
-
-        .navbar {
-          width: 100%;
-          height: auto;
-          position: relative;
-        }
-
-        .main-content {
-          margin-left: 0;
-          max-width: 100%;
-          padding: 1rem;
-        }
-
-        h1 {
-          font-size: 2rem;
-        }
-
-        h2 {
-          font-size: 1.5rem;
-        }
-
-        .section {
-          padding: 1rem;
-        }
-
-        .skip-link:focus {
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-
-      /* High contrast mode */
-      @media (prefers-contrast: high) {
-        body {
-          background-color: white;
-          color: black;
-        }
-
-        .navbar {
-          background-color: black;
-        }
-
-        .nav-list a {
-          color: white;
-        }
-
-        .section {
-          border: 2px solid black;
-        }
-      }
-      .terminal {
-        background-color: #2b2b2b;
-        border-radius: 6px;
-        padding: 1rem;
-        margin: 1rem 0;
-        position: relative;
-        font-family: "Courier New", Courier, monospace;
-      }
-
-      .terminal-content {
-        color: #f8f8f8;
-        margin-right: 40px;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
-
-      .copy-btn {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        background-color: #3498db;
-        border: none;
-        border-radius: 4px;
-        padding: 5px 10px;
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      .copy-btn:hover {
-        background-color: #2980b9;
-      }
-    </style>
+    <title>Ubuntu Webserver Guide</title>
+    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <nav class="navbar" role="navigation" aria-label="Hovednavigasjon">
-      <ul class="nav-list">
-        <li><a href="#intro">Introduksjon</a></li>
-        <li><a href="#vm-setup">VM Oppsett</a></li>
-        <li><a href="#ubuntu-install">Ubuntu Installasjon</a></li>
-        <li><a href="#ssh-setup">SSH Oppsett</a></li>
-        <li><a href="#apache-setup">Apache Oppsett</a></li>
-        <li><a href="#dns-setup">DNS Konfigurasjon</a></li>
+    <nav class="sidebar">
+      <ul>
+        <li><a href="#vm-setup" class="neon-link">Sette opp VM</a></li>
+        <li>
+          <a href="#ubuntu-install" class="neon-link">Installere Ubuntu</a>
+        </li>
+        <li><a href="#ssh" class="neon-link">Konfigurere SSH</a></li>
+        <li><a href="#apache" class="neon-link">Installere Apache</a></li>
+        <li><a href="#dns" class="neon-link">Konfigurere DNS</a></li>
       </ul>
     </nav>
-
-    <main id="main-content" class="main-content">
-      <h1>Guide: Ubuntu Server Installasjon og Webserver Oppsett</h1>
-
-      <section id="vm-setup" class="section">
-        <h2>Oppsett av Virtuell Maskin</h2>
-        <p>1. Høyreklikk på din pool og velg "New Virtual Machine"</p>
-
-        <div class="image-container">
-          <img
-            src="img/image1.png"
-            alt="VM Creation Dialog - New Virtual Machine menu"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>2. Gå gjennom veiviseren:</p>
-        <div class="image-container">
-          <img
-            src="img/image2.png"
-            alt="VM Creation Wizard - Naming your VM"
-            class="image-placeholder"
-          />
-        </div>
-
+    <main>
+      <section id="vm-setup">
+        <h2>Sette opp en virtuell maskin</h2>
+        <p>Høyreklikk på din pool, og velg "New Virtual Machine"</p>
+        <img src="img/img1.png" alt="" />
         <p>
-          Velg din egen pool og klikk next. På nummer 4 velger du IKT-fag og
-          klikker next. På nummer 5 klikker du bare next.
+          Gjennomfør veiviseren ved å velge "New Virtual Machine" på punkt én og
+          klikk neste, deretter navngi VM-en din og klikk neste.
         </p>
-        <div class="image-container">
-          <img
-            src="img/image3.png"
-            alt="Pool Selection Screen"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>3. Velg Linux og Ubuntu Linux (64-bit)</p>
-        <div class="image-container">
-          <img
-            src="img/image4.png"
-            alt="OS Selection Screen"
-            class="image-placeholder"
-          />
-        </div>
-
+        <img src="img/img2.png" alt="" />
         <p>
-          4. Velg RAM og harddisk størrelse. Husk å velge "Thin Provision" for
-          "New Hard disk"
+          Sørg for å velge din egen pool på punkt tre og klikk neste. På punkt
+          fire velger du IKT-fag og klikker neste. På punkt fem bare klikker du
+          neste.
         </p>
-        <div class="image-container">
-          <img
-            src="img/image5.png"
-            alt="RAM and Disk Configuration Screen"
-            class="image-placeholder"
-          />
-        </div>
-
+        <img src="/img/img3REAL.png" alt="" />
+        <p>Velg Linux, og Ubuntu Linux (64-bit) på punkt seks.</p>
+        <img src="/img/img3.png" alt="" />
         <p>
-          5. Velg ubuntu-22.04.1-live-server-amd64 fra datastore ISO og huk av
-          "Connect at power on"
+          Velg din RAM og harddisk-størrelse, sørg for å velge Thin Provision
+          under "New Hard disk", Disk Provisioning.
         </p>
-        <div class="image-container">
-          <img
-            src="img/image6.png"
-            alt="ISO Selection Screen"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>6. Aktiver "Force EFI setup" i Boot options</p>
-        <div class="image-container">
-          <img
-            src="img/image7.png"
-            alt="VM Options - Boot Settings Screen"
-            class="image-placeholder"
-          />
-        </div>
+        <img src="img/img4.png" alt="" />
+        <p>
+          Klikk på rullegardinmenyen ved "New CD/DVD Drive" og velg datalager
+          ISO, der du velger ubuntu-22.04.1-live-server-amd64. Kryss også av for
+          Connect at power on.
+        </p>
+        <img src="img/img5.png" alt="" />
+        <p>
+          Gå inn i VM-alternativer og kryss av for Force EFI setup under Boot
+          options.
+        </p>
+        <img src="img/img6.png" alt="" />
+        <p>
+          Nå kan du klikke neste, se over innstillingene dine og klikke ferdig.
+        </p>
+        <p>
+          For å starte VM-en din klikker du på play-ikonet og deretter Launch
+          Web console når den er ferdig med oppstarten.
+        </p>
+        <img src="img/img7.png" alt="" />
+        <p>
+          Trykk på enter-tasten for å Boot Normally og starte installasjonen av
+          Ubuntu.
+        </p>
+        <img src="img/img8.png" alt="" />
       </section>
 
-      <section id="ubuntu-install" class="section">
-        <h2>Ubuntu Server Installasjon</h2>
-        <p>Start VM-en og klikk på "Launch Web console"</p>
-        <div class="image-container">
-          <img
-            src="img/image8.png"
-            alt="VM Console Launch Screen"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>Trykk Enter for å starte installasjonen</p>
-        <div class="image-container">
-          <img
-            src="img/image9.png"
-            alt="Ubuntu Boot Screen"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>For nettverkskonfigurasjon, velg manual og fyll inn:</p>
+      <section id="ubuntu-install">
+        <h2>Installere Ubuntu</h2>
+        <p>
+          Velg engelsk, deretter velg norsk for tastaturoppsettet. På neste
+          skjerm bare trykk done.
+        </p>
+        <p>
+          For nettverk velg Edit IPv4 i topp-rullegardinmenyen, og velg manual
+          der du skriver:
+        </p>
         <ul>
           <li>Subnet: 10.12.xx.0/24</li>
           <li>Address: 10.12.xx.xx</li>
           <li>Gateway: 10.12.xx.1</li>
           <li>Name Servers: 10.10.1.20, 1.1.1.1, 8.8.8.8</li>
         </ul>
+        <p>
+          Klikk deretter neste/done til du kommer til denne skjermen, her velger
+          du continue without updating.
+        </p>
+        <img src="img/img9.png" alt="" />
+        <p>
+          Fortsett til du kommer til Profile setup, her velger du navn og
+          passord, ikke glem det!
+        </p>
+        <p>På neste skjerm kryss av for install openssh server.</p>
+        <img src="img/ïmg10.png" alt="" />
+        <p>
+          Hvis du trenger noen tilleggstjenester velger du dem og klikker neste.
+        </p>
+        <p>
+          Installasjonen tar ganske lang tid så bare slapp av til "cancel
+          update" dukker opp, klikk på den. Hvis du ikke avbrøt vil du få
+          "reboot now", klikk det, og når du blir spurt trykk enter for å fjerne
+          installasjonsmedium.
+        </p>
+        <img src="img/img11.png" alt="" />
+      </section>
 
-        <div class="image-container">
-          <img
-            src="img/image10.png"
-            alt="Network Configuration Screen"
-            class="image-placeholder"
-          />
-        </div>
+      <section id="ssh">
+        <h2>Konfigurere SSH</h2>
+        <p>Vi vil nå bytte fra å bruke nettkonsole til din lokale terminal.</p>
+        <p>
+          I din terminal skriver du "ssh [brukernavn]@10.12.XX.XX", skriv yes og
+          deretter passordet ditt, du er nå logget inn og koblet til, så vi
+          fortsetter med å legge til din SSH-nøkkel for passordfri pålogging.
+        </p>
+        <p>
+          I din lokale (ikke VM) terminal bruk denne kommandoen for å få din
+          offentlige SSH-nøkkel "cat ~/.ssh/id_rsa.pub" kopier koden og gå
+          tilbake til VM-terminalen der du skal skrive "cd .ssh" deretter "sudo
+          nano authorized_keys". Her limer du inn SSH-nøkkelen fra din lokale
+          maskin.
+        </p>
+        <img src="img/img12.png" alt="" />
+      </section>
 
-        <p>Installer OpenSSH server</p>
-        <div class="image-container">
-          <img
-            src="img/image11.png"
-            alt="SSH Server Installation Screen"
-            class="image-placeholder"
-          />
-        </div>
+      <section id="apache">
+        <h2>Installere Apache</h2>
+        <p>Begynn med denne kommandoen for å oppdatere pakkelisten:</p>
+        <code>sudo apt update && sudo apt upgrade -y</code>
+        <p>Deretter:</p>
+        <code>sudo apt install apache2 -y</code>
+        <p>Til slutt:</p>
+        <code>sudo apt update && sudo apt install git -y</code>
+        <p>Du vil nå ha en testside fra Apache i /var/www mappen kalt html.</p>
+        <img src="img/img125.png" alt="" />
+        <p>Klon github-prosjektet til html-mappen ved bruk av:</p>
+        <code>sudo git clone [git_repo_link]</code>
+        <p>Så gir du rettigheter til apache til mappen ved:</p>
+        <code>sudo chown -R www-data:www-data /var/www/html/myProject</code>
+        <code>sudo chmod -R 755 /var/www/html/myProject</code>
+        <img src="img/img13.png" alt="" />
+      </section>
+
+      <section id="dns">
+        <h2>Konfigurere DNS</h2>
+        <p>
+          For å slippe å bruke IP som URL, må vi legge til IP-en i Windows
+          Serveren.
+        </p>
+        <p>
+          Det gjør vi ved å gå inn i "Server manager" på Windows, deretter
+          trykke på "Tools" og så "DNS".
+        </p>
+        <img src="img/img14.png" alt="" />
+        <p>
+          Så åpner vi "Forward lookup zones" og høyreklikker på
+          "[serverNavn].ikt-fag.no" og velger "New Host (A or AAAA)".
+        </p>
+        <img src="img/img15.png" alt="" />
 
         <p>
-          Når installasjonen er ferdig, velg "Cancel update" eller "Reboot now"
+          Der konfigurerer du den nye hosten og legger inn informasjonen du
+          skal. Når du har trykket på "add host" bør du kunne gå til din FQDN
+          (Fully qualified domain name), og se din nettside.
         </p>
-        <div class="image-container">
-          <img
-            src="img/image12.png"
-            alt="Installation Complete Screen"
-            class="image-placeholder"
-          />
-        </div>
-      </section>
-
-      <section id="ssh-setup" class="section">
-        <h2>SSH Oppsett</h2>
-        <p>Koble til via terminal:</p>
-        <div class="terminal">
-          <div class="terminal-content">ssh [username]@10.12.XX.XX</div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-
-        <div class="image-container">
-          <img
-            src="img/image13.png"
-            alt="SSH Connection Screen"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>Hent din public SSH-nøkkel:</p>
-        <div class="terminal">
-          <div class="terminal-content">cat ~/.ssh/id_rsa.pub</div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-      </section>
-
-      <section id="apache-setup" class="section">
-        <h2>Apache Installasjon</h2>
-        <p>Oppdater systemet og installer Apache:</p>
-        <div class="terminal">
-          <div class="terminal-content">
-            sudo apt update && sudo apt upgrade -y
-          </div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-        <div class="terminal">
-          <div class="terminal-content">sudo apt install apache2 -y</div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-        <div class="terminal">
-          <div class="terminal-content">
-            sudo apt update && sudo apt install git -y
-          </div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-
-        <div class="image-container">
-          <img
-            src="img/image14.png"
-            alt="Apache Default Page"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>Clone GitHub-prosjektet og sett rettigheter:</p>
-        <div class="terminal">
-          <div class="terminal-content">sudo git clone [git_repo_link]</div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-        <div class="terminal">
-          <div class="terminal-content">
-            sudo chown -R www-data:www-data /var/www/html/myProject
-          </div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-        <div class="terminal">
-          <div class="terminal-content">
-            sudo chmod -R 755 /var/www/html/myProject
-          </div>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        </div>
-
-        <div class="image-container">
-          <img
-            src="img/image15.png"
-            alt="Git Clone and Permissions Setup"
-            class="image-placeholder"
-          />
-        </div>
-      </section>
-
-      <section id="dns-setup" class="section">
-        <h2>DNS Konfigurasjon</h2>
-        <div class="image-container">
-          <img
-            src="img/image16.png"
-            alt="Server Manager DNS Tools"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>Åpne "Forward lookup zones" og opprett ny host</p>
-        <div class="image-container">
-          <img
-            src="img/image17.png"
-            alt="DNS Forward Lookup Zones"
-            class="image-placeholder"
-          />
-        </div>
-
-        <p>Konfigurer den nye hosten</p>
-        <div class="image-container">
-          <img
-            src="img/image18.png"
-            alt="New Host Configuration Screen"
-            class="image-placeholder"
-          />
-        </div>
+        <img src="img/img16.png" alt="" />
       </section>
     </main>
-
-    <script>
-      function copyToClipboard(button) {
-        const terminal = button.previousElementSibling;
-        const text = terminal.textContent;
-
-        navigator.clipboard.writeText(text).then(() => {
-          const originalText = button.textContent;
-          button.textContent = "Copied!";
-          button.style.backgroundColor = "#27ae60";
-
-          setTimeout(() => {
-            button.textContent = originalText;
-            button.style.backgroundColor = "#3498db";
-          }, 2000);
-        });
-      }
-    </script>
   </body>
+  <script>
+    // Aktiver seksjonsanimasjoner
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll("section").forEach((section) => {
+      observer.observe(section);
+    });
+
+    // Oppdater aktiv navbar-link
+    window.addEventListener("scroll", () => {
+      const sections = document.querySelectorAll("section");
+      const navLinks = document.querySelectorAll(".sidebar a");
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          const id = section.getAttribute("id");
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${id}`) {
+              link.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  </script>
 </html>
